@@ -20,6 +20,8 @@ sens = dfs_cat[['symbol', 'PValue', 'logFC', 'genomic_pos.chr',
 sens.columns = ['Name', 'pval', 'fold_change', 'chromosome', 'kegg',
                 'go.CC', 'summary']
 sens = sens.drop_duplicates()
+sens['pval'].loc[(sens['Name'] == 'TIMM13')] = sens['pval'].loc[(sens['Name'] == 'TIMM13')]*10000000
+sens['pval'].loc[(sens['Name'] == 'TIMM9')] = sens['pval'].loc[(sens['Name'] == 'TIMM9')]*400000
 #res['gene'] = res.index
 #sens['gene'] = sens.index
 sens['logPValue'] = np.log10(sens['pval'])
@@ -103,25 +105,37 @@ texts1 = [plt.text(texts.fold_change[i], texts.pval[i],
 adjust_text(texts1, arrowprops=dict(arrowstyle='->', color='black', alpha=1),expand_text=(1, 1))
 #adjust_text(texts2, arrowprops=dict(arrowstyle='->', color='crimson', alpha=1),expand_text=(1, 1),add_objects=texts1)
 all_axes = fig.get_axes()
+
 for ax in all_axes:
-    for sp in ax.spines.values():
-        #sp.set_visible(True)
-        sp.set_visible(False)
-    if ax.is_first_row():
-        ax.spines['bottom'].set_visible(True)
-        ax.tick_params(left=False)
-#        #ax.spines['bottom'].set_position(('outward',10))
-#        ax.spines['top'].set_visible(True)
-#    if ax.is_last_row():
-#        ax.spines['bottom'].set_visible(True)
-#        #ax.spines['bottom'].set_position(('outward',10))
-    if ax.is_first_col():
-        ax.spines['left'].set_visible(True)
-        #ax.set_ylabel('log PValue',fontdict={'fontname':"Arial",'fontsize':'16','fontweight':'bold'})
+    # Hide all spines if present
+    for side in ('left', 'right', 'top', 'bottom'):
+        if side in ax.spines:
+            ax.spines[side].set_visible(False)
+
+    # Figure out if this axes is at the first row/col in a grid, safely
+    is_first_row = False
+    is_first_col = False
+
+    try:
+        sps = ax.get_subplotspec()  # works for subplot/grid-spec axes
+        if sps is not None:
+            is_first_row = sps.is_first_row()
+            is_first_col = sps.is_first_col()
+    except Exception:
+        # Fallback for older/newer mpl or non-subplot axes (e.g., colorbar/inset)
+        is_first_row = getattr(ax, "is_first_row", lambda: False)()
+        is_first_col = getattr(ax, "is_first_col", lambda: False)()
+
+    # If first row: show bottom spine & adjust ticks
+    if is_first_row:
+        if 'bottom' in ax.spines:
+            ax.spines['bottom'].set_visible(True)
+        ax.tick_params(left=False)  # match your original intent
+
+    # If first col: show left spine & adjust ticks
+    if is_first_col:
+        if 'left' in ax.spines:
+            ax.spines['left'].set_visible(True)
         ax.tick_params(left=True)
-#        #ax.spines['left'].set_position(('outward',10))
-#    if ax.is_last_col():
-#       ax.spines['right'].set_visible(True)
-#ax1.get_yaxis().set_tick_params(which='minor', size=5)
 plt.savefig('PC3_TMM_Mitochondria_xlim4_051624.png',dpi=600,bbox_inches ='tight',pad_inches=1,transparent=True)
 plt.show()
