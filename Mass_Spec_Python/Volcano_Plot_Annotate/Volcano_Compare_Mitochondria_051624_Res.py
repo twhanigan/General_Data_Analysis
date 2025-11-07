@@ -20,8 +20,6 @@ sens = dfs_cat[['symbol', 'PValue', 'logFC', 'genomic_pos.chr',
 sens.columns = ['Name', 'pval', 'fold_change', 'chromosome', 'kegg',
                 'go.CC', 'summary']
 sens = sens.drop_duplicates()
-sens['pval'].loc[(sens['Name'] == 'TIMM13')] = sens['pval'].loc[(sens['Name'] == 'TIMM13')]*10000000
-sens['pval'].loc[(sens['Name'] == 'TIMM9')] = sens['pval'].loc[(sens['Name'] == 'TIMM9')]*400000
 #res['gene'] = res.index
 #sens['gene'] = sens.index
 sens['logPValue'] = np.log10(sens['pval'])

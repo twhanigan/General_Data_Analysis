@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
 import math 
-import numpy as np
-import pandas as pd
-import math 
 from pandas import ExcelWriter
 from pandas import ExcelFile
 import scipy
@@ -11,9 +8,6 @@ from scipy import stats
 from scipy.stats import pearsonr
 import warnings
 from scipy.stats import ttest_ind
-from sklearn.metrics.pairwise import pairwise_distances
-#from sklearn.metrics import jaccard_similarity_score
-from more_itertools import unique_everseen
 import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
