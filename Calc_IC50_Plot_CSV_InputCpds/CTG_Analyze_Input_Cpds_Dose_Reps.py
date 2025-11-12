@@ -59,7 +59,7 @@ def get_filepaths(directory):
 files = get_filepaths(my_path)
 print(files)
 
-# ---------- helpers you already had ----------
+# ---------- helper functions ----------
 def generate_concentrations(max_conc, number_dilutions, dilution_factor):
     """Left->right decreasing concentration (col 1 = highest)."""
     conc = [max_conc / (dilution_factor ** i) for i in range(number_dilutions)]
