@@ -255,7 +255,7 @@ for file in files:
     normal = normalize(final, frame_name)
     frame_list.append(normal)
 
-# Combine all normalized frames and fit/export (same filenames)
+# Combine all normalized frames
 total_frame = pd.concat(frame_list, ignore_index=True)
 a, b = get_curve_lm_b(total_frame)
 a.to_csv('Combined_Frame_10252025.csv', index=False)
