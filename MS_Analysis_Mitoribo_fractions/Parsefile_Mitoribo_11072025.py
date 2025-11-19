@@ -64,6 +64,7 @@ for row in one:
 
 #Raw_Frame = Raw_Frame.sort_values(by=['diff_S3',"diff_S8"],ascending =[False,False])#ascending =[False,True,True,True,True]
 Raw_Frame = Raw_Frame.sort_values(by=['mito_ribosome'], ascending =[False])#ascending =[False,True,True,True,True]
+Raw_Frame.to_excel('Heatmap_Output_11152025.xlsx')
 row_colors = Raw_Frame['mito_ribosome'].map({0: 'lightgrey', 1: 'red',2: 'darkred',3:'crimson'})
 hits_pbs = Raw_Frame[Raw_Frame['4S_5S_pval']<0.1]#&(Raw_Frame['diff_525']>2.9)&(Raw_Frame['diff_526']>1)&(Raw_Frame['diff_888']>1)]
 s1 = (hits_pbs)
